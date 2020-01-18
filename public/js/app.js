@@ -27,19 +27,17 @@ weatherForm.addEventListener('submit', event => {
   if (searchLoc.value === undefined) {
     return console.log('Please enter a location');
   }
-  fetch('http://localhost:3000/weather?address=' + searchLoc.value).then(
-    response => {
-      response.json().then(data => {
-        if (data.error) {
-          message1.textContent = data.error;
-          return console.log(data.error);
-        }
-        console.log(data);
-        message1.textContent = data.location;
-        message2.textContent = data.forecast;
-        console.log(data.location);
-        console.log(data.forecast);
-      });
-    }
-  );
+  fetch('/weather?address=' + searchLoc.value).then(response => {
+    response.json().then(data => {
+      if (data.error) {
+        message1.textContent = data.error;
+        return console.log(data.error);
+      }
+      console.log(data);
+      message1.textContent = data.location;
+      message2.textContent = data.forecast;
+      console.log(data.location);
+      console.log(data.forecast);
+    });
+  });
 });
