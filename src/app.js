@@ -61,23 +61,31 @@ app.get('/weather', (req, res) => {
         console.log('Geocode error');
         return res.send({ error });
       }
-      forecast(latitude, longitude, (error, { summary, temp, precip }) => {
-        if (error) {
-          console.log('Forecast error');
-          return res.send({ error });
+      forecast(
+        latitude,
+        longitude,
+        (error, { summary, temp, precip, lowTemp, highTemp }) => {
+          if (error) {
+            console.log('Forecast error');
+            return res.send({ error });
+          }
+          res.send({
+            forecast:
+              summary +
+              ' It is currently ' +
+              temp +
+              ' degrees out. There is a ' +
+              precip +
+              '% chance of rain. The Highest recorded temperature was ' +
+              highTemp +
+              ' and the Lowest recorded temperature was ' +
+              lowTemp +
+              '.',
+            location,
+            address: req.query.address
+          });
         }
-        res.send({
-          forecast:
-            summary +
-            ' It is currently ' +
-            temp +
-            ' degrees out. There is a ' +
-            precip +
-            '% chance of rain.',
-          location,
-          address: req.query.address
-        });
-      });
+      );
     }
   );
 });
